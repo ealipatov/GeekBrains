@@ -20,7 +20,7 @@ public class Task01 {
         где a, b, c, d – аргументы этого метода, имеющие тип float.
         Проверяем работу метода, вычияляющего выражение:
     */
-        System.out.println("3. Результат: a * (b + (c / d)) = " + calc(3, 4, 6, 3));
+        System.out.println("3. Результат: a * (b + (c / d)) = " + calc(3f, 4f, 6f, 3f));
 
     /*
     4.  Написать метод, принимающий на вход два целых числа и проверяющий,
@@ -63,8 +63,8 @@ public class Task01 {
      * 3. Метод вычисляющий выражение a * (b + (c / d)) и возвращающий результат,
      * где a, b, c, d – входные параметры этого метода.
      */
-    public static int calc(int a, int b, int c, int d) {
-        int res = a * (b + (c / d));
+    public static float calc(float a, float b, float c, float d) {
+        float res = a * (b + (c / d));
         return res;
     }
 

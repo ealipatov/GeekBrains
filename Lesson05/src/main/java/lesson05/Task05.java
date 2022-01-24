@@ -40,7 +40,7 @@ public class Task05 {
         //Выведем на консоль объекты согласно условию (возраст больше 40 лет)
         System.out.println("Сотрудники старше 40 лет:");
         for (int i = 0; i < size; i++) {
-            if (arrEmp[i].age > 40)
+            if (arrEmp[i].getAge() >= 40)
             arrEmp[i].dicplayInfo();
         }
 

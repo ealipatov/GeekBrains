@@ -6,7 +6,7 @@ public class Employee {
     private String email;   // Электронная почта
     private String tel;     // Телефон
     private int salary;     // Зарплата
-    public int age;        // Возраст
+    private int age;        // Возраст
     public int id;          // Номер по порядку
     static int count;       // Счетчик
 

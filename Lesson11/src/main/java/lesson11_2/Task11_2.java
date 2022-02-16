@@ -13,26 +13,28 @@ public class Task11_2 {
             oranges.add(new Orange());
         }
 
-        Box<Apple> box01 = new Box(apples, "Яблоки");
-        Box<Orange> box02 = new Box(oranges, "Апельсины");
-        Box<Apple> box03 = new Box<>(new ArrayList<Apple>(),"Яблоки");
 
-        System.out.printf("Вес фруктов в ящике %s: %.2f\n", box02.getName(), box02.getWeight());
-        System.out.printf("Вес фруктов в ящике %s: %.2f\n", box01.getName(), box01.getWeight());
-        System.out.printf("Вес фруктов в ящике %s: %.2f\n", box03.getName(), box03.getWeight());
+        Box boxApple01 = new Box(apples, Apple.NAME);
+        Box boxOrange02 = new Box(oranges, Orange.NAME);
+        Box boxApple03 = new Box<>(new ArrayList<Apple>(), Apple.NAME);
 
-        System.out.println(box01.compare(box02));
-        System.out.println(box01.compare(box03));
+        System.out.println(boxOrange02);
+        System.out.println(boxApple01);
+        System.out.println(boxApple03);
 
-        box01.transfer(box03);
-        box02.transfer(box03);
-        box01.add(15);
-        System.out.printf("Вес фруктов в ящике %s: %.2f\n", box02.getName(), box02.getWeight());
-        System.out.printf("Вес фруктов в ящике %s: %.2f\n", box01.getName(), box01.getWeight());
-        System.out.printf("Вес фруктов в ящике %s: %.2f\n", box03.getName(), box03.getWeight());
-        System.out.println(box01.compare(box03));
-        box02.add(10);
-        System.out.printf("Вес фруктов в ящике %s: %.2f\n", box02.getName(), box02.getWeight());
+        boxApple01.compare(boxOrange02);
+        boxApple01.compare(boxApple03);
+
+        boxApple01.transfer(boxApple03);
+        boxOrange02.transfer(boxApple03);
+
+        boxApple01.add(15);
+        System.out.println(boxApple01);
+
+        boxApple01.compare(boxApple03);
+
+        boxOrange02.add(5);
+        System.out.println(boxOrange02);
 
     }
 }
@@ -43,79 +45,91 @@ interface FruitData{
 }
 
 abstract class Fruit implements FruitData {
-    double weightOne;
-    double weight;
-    int quantity;
-
 }
 
 class Apple extends Fruit{
-    final double weightOne = 1.0f;
+    final static double WEIGHT = 1.0f;
+    final static String NAME = "Apple";
 
     @Override
     public double getWeightOne() {
-        return weightOne;
+        return WEIGHT;
     }
+
 }
 
 class Orange extends Fruit{
-    final double weightOne = 1.5f;
+    final static double WEIGHT = 1.5f;
+    final static String NAME = "Orange";
 
     @Override
     public double getWeightOne() {
-        return weightOne;
+        return WEIGHT;
     }
+
 }
 
 class Box<T extends Fruit> {
     private ArrayList <T> fruit;
-    private double weightOne;
-    private String name;
+    double weight;
+    private String nameFruit;
 
     public Box(ArrayList<T> fruit, String name) {
-        this.name = name;
+        this.nameFruit = name;
         this.fruit = fruit;
-        this.weightOne = 0;
+        this.weight = getWeight();
     }
 
+    @Override
+    public String toString() {
+        return "Ящик {"+ nameFruit + ", вес ящика: " + getWeight() +'}' + fruit.getClass().getSimpleName();
+    }
 
-    public String getName() {
-        return name;
+    public String getNameFruit() {
+        return nameFruit;
     }
 
     public double getWeight(){
         if(fruit.size() != 0) {
-            double sum = fruit.size() * fruit.get(0).getWeightOne();
-            return sum;
+            return fruit.size() * fruit.get(0).getWeightOne();
         } else return 0;
     }
 
     public boolean compare(Box box){
         if(box.getWeight() == this.getWeight()){
+            System.out.printf("Ящики %s весом %.2f и %s весом %.2f равны по весу \n",
+                    box.nameFruit, box.getWeight(), this.nameFruit, this.getWeight());
             return true;
-        } else
-        return false;
+        } else{
+            System.out.printf("Вес ящиков %s весом %.2f и %s весом %.2f разный.\n",
+                    box.nameFruit, box.getWeight(), this.nameFruit, this.getWeight());
+            return false;
+        }
     }
 
-    //TODO Переработать проверку совместимости фрцктов через ограничекние(не по имени).
+    //TODO Переработать проверку совместимости фруктов через ограничекние(не по имени).
     public void transfer(Box box){
-        if(this.name == box.name) {
+        if(this.getNameFruit().equals(box.getNameFruit())) {
             box.fruit.addAll(this.fruit);
             this.fruit.clear();
-        } else System.out.println("Нельзя пересыпать разные фрукты");
-
+        } else System.out.printf("Нельзя пересыпать %s в %s. Это разные фрукты. \n"
+                ,this.getNameFruit(), box.getNameFruit());
     }
 
     // TODO Разработать метод добавления фрукта в ящик с проверкой через ограничение (не по имени).
-    public void add(int quantuty){
+    public void add(int quantity){
         Apple apple = new Apple();
         Orange orange = new Orange();
 
-        if(this.name == "Яблоки"){
-            for(int i = 0; i < quantuty; i++){
+        if(this.nameFruit == Apple.NAME){
+            for(int i = 0; i < quantity; i++){
                 fruit.add((T) apple);
             }
-        } else fruit.add((T) orange);
+        } else {
+            for(int i = 0; i < quantity; i++){
+                fruit.add((T) orange);
+            }
+        }
 
     }
 

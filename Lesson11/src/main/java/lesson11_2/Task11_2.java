@@ -70,6 +70,8 @@ class Orange extends Fruit{
 }
 
 class Box<T extends Fruit> {
+    Apple apple;
+    Orange orange;
     private ArrayList <T> fruit;
     double weight;
     private String nameFruit;
